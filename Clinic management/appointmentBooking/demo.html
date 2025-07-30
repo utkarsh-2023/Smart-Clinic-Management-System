@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediBook - Demo Instructions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+        }
+        .feature-card h3 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        .demo-section {
+            background: #e0f2fe;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .demo-accounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .account-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .start-btn {
+            background: #2563eb;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+        .start-btn:hover {
+            background: #1d4ed8;
+        }
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .tech-item {
+            background: #1e293b;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 MediBook Demo</h1>
+        
+        <p style="text-align: center; font-size: 1.1rem; color: #64748b; margin-bottom: 30px;">
+            A complete appointment booking system with separate dashboards for doctors and patients.
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>👨‍⚕️ Doctor Features</h3>
+                <ul>
+                    <li>View all appointments</li>
+                    <li>Daily schedule overview</li>
+                    <li>Patient management</li>
+                    <li>Appointment statistics</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>👤 Patient Features</h3>
+                <ul>
+                    <li>Book new appointments</li>
+                    <li>View appointment history</li>
+                    <li>Search doctors by specialty</li>
+                    <li>Real-time slot availability</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3 style="text-align: center; color: #0f766e;">🚀 Try the Demo</h3>
+            <p style="text-align: center;">
+                The application is running in demo mode with mock data. You can login with any email and password combination.
+            </p>
+            
+            <div class="demo-accounts">
+                <div class="account-card">
+                    <h4>👨‍⚕️ Doctor Login</h4>
+                    <p><strong>Email:</strong> doctor@demo.com</p>
+                    <p><strong>Password:</strong> demo123</p>
+                    <p><strong>Type:</strong> Doctor</p>
+                </div>
+                <div class="account-card">
+                    <h4>👤 Patient Login</h4>
+                    <p><strong>Email:</strong> patient@demo.com</p>
+                    <p><strong>Password:</strong> demo123</p>
+                    <p><strong>Type:</strong> Patient</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <h3>Built With</h3>
+            <div class="tech-stack">
+                <span class="tech-item">HTML5</span>
+                <span class="tech-item">CSS3</span>
+                <span class="tech-item">JavaScript ES6+</span>
+                <span class="tech-item">Font Awesome</span>
+                <span class="tech-item">Responsive Design</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="start-btn">
+            🚀 Launch MediBook Application
+        </a>
+
+        <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center;">
+            <strong>💡 Note:</strong> To connect to your backend, update the API_BASE_URL in script.js and set MOCK_MODE = false
+        </div>
+    </div>
+</body>
+</html> 

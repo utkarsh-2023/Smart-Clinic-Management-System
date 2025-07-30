@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  appointment-booking-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: appointment-booking-frontend:latest
+    container_name: medibook-frontend
+    ports:
+      - "80:80"
+      - "8080:80"  # Alternative port
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    volumes:
+      # Optional: Mount logs for debugging
+      - nginx-logs:/var/log/nginx
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.medibook.rule=Host(`localhost`)"
+      - "traefik.http.services.medibook.loadbalancer.server.port=80"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Optional: Add a reverse proxy for production
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: medibook-proxy
+    ports:
+      - "443:443"
+    volumes:
+      - ./proxy.conf:/etc/nginx/nginx.conf:ro
+      # - ./ssl:/etc/nginx/ssl:ro  # Uncomment for SSL certificates
+    depends_on:
+      - appointment-booking-frontend
+    profiles:
+      - production
+    restart: unless-stopped
+
+volumes:
+  nginx-logs:
+    driver: local
+
+networks:
+  default:
+    name: medibook-network 

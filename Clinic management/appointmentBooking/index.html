@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MediBook</span>
+            </div>
+            <nav class="nav" id="mainNav" style="display: none;">
+                <button class="nav-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Login/Signup Section -->
+        <section id="authSection" class="auth-section">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="showTab('login')">Login</button>
+                    <button class="tab-btn" onclick="showTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form active">
+                    <h2>Welcome Back</h2>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <input type="email" id="loginEmail" placeholder="Email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="form-group">
+                            <select id="loginUserType" required>
+                                <option value="">Select User Type</option>
+                                <option value="doctor">Doctor</option>
+                                <option value="patient">Patient</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signupForm" class="auth-form">
+                    <h2>Create Account</h2>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <input type="text" id="signupName" placeholder="Full Name" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="signupEmail" placeholder="Email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="signupPassword" placeholder="Password" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="form-group">
+                            <select id="signupUserType" required>
+                                <option value="">Select User Type</option>
+                                <option value="doctor">Doctor</option>
+                                <option value="patient">Patient</option>
+                            </select>
+                        </div>
+                        <div id="doctorSpecialty" class="form-group" style="display: none;">
+                            <input type="text" id="signupSpecialty" placeholder="Medical Specialty">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Doctor Dashboard -->
+        <section id="doctorDashboard" class="dashboard" style="display: none;">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Doctor Dashboard</h1>
+                    <div class="user-info">
+                        <i class="fas fa-user-md"></i>
+                        <span id="doctorName">Dr. John Doe</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-calendar-check"></i>
+                            <div class="stat-info">
+                                <h3 id="todayAppointments">0</h3>
+                                <p>Today's Appointments</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-info">
+                                <h3 id="upcomingAppointments">0</h3>
+                                <p>Upcoming</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-info">
+                                <h3 id="completedAppointments">0</h3>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="appointments-section">
+                        <h2>Your Appointments</h2>
+                        <div class="appointments-filters">
+                            <button class="filter-btn active" onclick="filterAppointments('all')">All</button>
+                            <button class="filter-btn" onclick="filterAppointments('today')">Today</button>
+                            <button class="filter-btn" onclick="filterAppointments('upcoming')">Upcoming</button>
+                            <button class="filter-btn" onclick="filterAppointments('completed')">Completed</button>
+                        </div>
+                        <div id="doctorAppointmentsList" class="appointments-list">
+                            <!-- Appointments will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patient Dashboard -->
+        <section id="patientDashboard" class="dashboard" style="display: none;">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Patient Dashboard</h1>
+                    <div class="user-info">
+                        <i class="fas fa-user"></i>
+                        <span id="patientName">John Doe</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="action-buttons">
+                        <button class="primary-btn" onclick="showBookingSection()">
+                            <i class="fas fa-plus"></i> Book New Appointment
+                        </button>
+                    </div>
+
+                    <div class="appointments-section">
+                        <h2>Your Appointments</h2>
+                        <div class="appointments-filters">
+                            <button class="filter-btn active" onclick="filterPatientAppointments('all')">All</button>
+                            <button class="filter-btn" onclick="filterPatientAppointments('upcoming')">Upcoming</button>
+                            <button class="filter-btn" onclick="filterPatientAppointments('previous')">Previous</button>
+                        </div>
+                        <div id="patientAppointmentsList" class="appointments-list">
+                            <!-- Appointments will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="bookingSection" class="booking-section" style="display: none;">
+            <div class="container">
+                <div class="booking-header">
+                    <h1>Book New Appointment</h1>
+                    <button class="back-btn" onclick="hideBookingSection()">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+
+                <div class="booking-steps">
+                    <div class="step active" id="step1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Select Doctor</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Choose Slot</span>
+                    </div>
+                    <div class="step" id="step3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Confirm</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Select Doctor -->
+                <div id="doctorSelection" class="booking-step active">
+                    <h2>Select a Doctor</h2>
+                    <div class="search-box">
+                        <input type="text" id="doctorSearch" placeholder="Search doctors by name or specialty">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div id="doctorsList" class="doctors-list">
+                        <!-- Doctors will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Choose Slot -->
+                <div id="slotSelection" class="booking-step">
+                    <h2>Choose Available Slot</h2>
+                    <div class="selected-doctor-info">
+                        <div id="selectedDoctorCard" class="doctor-card">
+                            <!-- Selected doctor info -->
+                        </div>
+                    </div>
+                    <div class="date-selection">
+                        <input type="date" id="appointmentDate" onchange="loadAvailableSlots()">
+                    </div>
+                    <div id="availableSlots" class="slots-grid">
+                        <!-- Available slots will be loaded here -->
+                    </div>
+                    <div class="step-actions">
+                        <button class="secondary-btn" onclick="goToStep(1)">Previous</button>
+                        <button class="primary-btn" id="nextToConfirm" onclick="goToStep(3)" disabled>Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Confirm -->
+                <div id="confirmBooking" class="booking-step">
+                    <h2>Confirm Appointment</h2>
+                    <div class="booking-summary">
+                        <div class="summary-card">
+                            <h3>Appointment Details</h3>
+                            <div id="bookingSummary">
+                                <!-- Booking summary will be shown here -->
+                            </div>
+                        </div>
+                        <div class="notes-section">
+                            <label for="appointmentNotes">Additional Notes (Optional)</label>
+                            <textarea id="appointmentNotes" placeholder="Any specific concerns or notes for the doctor..."></textarea>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="secondary-btn" onclick="goToStep(2)">Previous</button>
+                        <button class="primary-btn" onclick="confirmBooking()">
+                            <i class="fas fa-check"></i> Confirm Appointment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Confirm Action</h3>
+            <p id="confirmMessage"></p>
+            <div class="modal-actions">
+                <button class="secondary-btn" onclick="closeModal()">Cancel</button>
+                <button class="primary-btn" id="confirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
